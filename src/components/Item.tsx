@@ -13,6 +13,7 @@ export const Item = (props: Props) => {
         id={props.id}
         defaultChecked={props.done}
         onChange={() => props.onToggle(props.id)}
+        // checked={props.done}
       />
       <label htmlFor={props.id} onClick={() => props.onToggle(props.id)}>
         {props.done ? <s>{props.header}</s> : props.header}

@@ -3,6 +3,11 @@ import { List } from "src/components/List";
 import { items } from "../utils/listForTests";
 import { TaskList } from "src/modules/TaskList";
 import { JestStoreProvider } from "../utils/JestStoreProvider";
+import ue from "@testing-library/user-event";
+
+const userEvent = ue.setup({
+  advanceTimers: jest.advanceTimersByTime,
+});
 
 it("отображение списка задач", () => {
   const onDelete = jest.fn();
@@ -21,12 +26,13 @@ it("отображение списка задач", () => {
   expect(firstRender).toMatchDiffSnapshot(secondRender);
 });
 
-it("Список содержит не больше 10 невыполненных задач", () => {
+it("Список содержит не больше 10 невыполненных задач", async () => {
   render(<TaskList />, {
     wrapper: JestStoreProvider,
   });
-  screen.debug();
-  const checkbox = screen.queryAllByRole("checkbox");
-  screen.debug(checkbox);
-  // expect(itemsEl.length).toBeLessThanOrEqual(10);
+
+  const filterBtnEl = screen.getByTestId("filter-button");
+  await userEvent.click(filterBtnEl);
+  const itemsEl = screen.queryAllByRole("listitem");
+  expect(itemsEl.length).toBeLessThanOrEqual(10);
 });

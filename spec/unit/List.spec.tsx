@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { List } from "src/components/List";
 import { items } from "../utils/listForTests";
+import { TaskList } from "src/modules/TaskList";
+import { JestStoreProvider } from "../utils/JestStoreProvider";
 
 it("отображение списка задач", () => {
   const onDelete = jest.fn();
@@ -20,5 +22,11 @@ it("отображение списка задач", () => {
 });
 
 it("Список содержит не больше 10 невыполненных задач", () => {
-  //добавт сюда тест
+  render(<TaskList />, {
+    wrapper: JestStoreProvider,
+  });
+  screen.debug();
+  const checkbox = screen.queryAllByRole("checkbox");
+  screen.debug(checkbox);
+  // expect(itemsEl.length).toBeLessThanOrEqual(10);
 });

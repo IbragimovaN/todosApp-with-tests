@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { Provider } from "react-redux";
 import ue from "@testing-library/user-event";
 import { TaskList } from "src/modules/TaskList";
-import { createTestStore } from "../utils/createTestStore";
 import { items } from "../utils/listForTests";
+import * as taskSliceModule from "src/store/taskSlice";
+import { JestStoreProvider } from "../utils/JestStoreProvider";
 
 const userEvent = ue.setup({
   advanceTimers: jest.advanceTimersByTime,
@@ -15,12 +15,14 @@ describe("Список задач", () => {
   });
 
   it("с включенным фильтром отображаются только не выполненные задачи", async () => {
-    const store = createTestStore(items);
-    render(
-      <Provider store={store}>
-        <TaskList />
-      </Provider>
-    );
+    const spied = jest
+      .spyOn(taskSliceModule, "tasksSelector")
+      .mockReturnValue(items);
+
+    render(<TaskList />, {
+      wrapper: JestStoreProvider,
+    });
+
     const filterBtnEl = screen.getByTestId("filter-button");
     await userEvent.click(filterBtnEl);
     const itemsEl = screen.getAllByRole("listitem");
@@ -29,12 +31,13 @@ describe("Список задач", () => {
   });
 
   it("с отключенным фильтром отображаются все задачи", async () => {
-    const store = createTestStore(items);
-    render(
-      <Provider store={store}>
-        <TaskList />
-      </Provider>
-    );
+    const spied = jest
+      .spyOn(taskSliceModule, "tasksSelector")
+      .mockReturnValue(items);
+
+    render(<TaskList />, {
+      wrapper: JestStoreProvider,
+    });
     const filterBtnEl = screen.getByTestId("filter-button");
     await userEvent.dblClick(filterBtnEl);
     const itemsEl = screen.getAllByRole("listitem");
@@ -43,12 +46,13 @@ describe("Список задач", () => {
   });
 
   it("список задач пуст", async () => {
-    const store = createTestStore([]);
-    render(
-      <Provider store={store}>
-        <TaskList />
-      </Provider>
-    );
+    const spied = jest
+      .spyOn(taskSliceModule, "tasksSelector")
+      .mockReturnValue([]);
+
+    render(<TaskList />, {
+      wrapper: JestStoreProvider,
+    });
     const itemsEl = screen.queryAllByRole("listitem");
     const filterBtnEl = screen.getByTestId("filter-button");
     if (!itemsEl) {

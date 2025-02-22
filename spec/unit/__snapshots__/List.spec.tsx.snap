@@ -5,7 +5,7 @@ exports[`отображение списка задач 1`] = `
 - First value
 + Second value
 
-@@ -46,32 +46,7 @@
+@@ -48,33 +48,7 @@
             alt="Удалить"
             src="[object Object]"
           />
@@ -29,6 +29,7 @@ exports[`отображение списка задач 1`] = `
 -       <button
 -         class="button button-with-icon"
 -         data-alt="Удалить"
+-         data-testid="delete"
 -       >
 -         <img
 -           alt="Удалить"

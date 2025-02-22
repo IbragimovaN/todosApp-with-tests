@@ -11,6 +11,7 @@ export const DeleteButton = ({ onClick, disabled }: Props) => {
       onClick={onClick}
       disabled={disabled}
       data-alt="Удалить"
+      data-testid="delete"
     >
       <img src={TrashIcon} alt="Удалить" />
     </button>

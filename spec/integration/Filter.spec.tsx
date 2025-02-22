@@ -40,7 +40,7 @@ describe("Список задач", () => {
     });
     const filterBtnEl = screen.getByTestId("filter-button");
     await userEvent.dblClick(filterBtnEl);
-    const itemsEl = screen.getAllByRole("listitem");
+    const itemsEl = screen.queryAllByRole("listitem");
 
     expect(itemsEl).toHaveLength(3);
   });

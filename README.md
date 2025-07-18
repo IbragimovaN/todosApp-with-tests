@@ -11,8 +11,6 @@
 - **Webpack 5**
 - **Jest** + **Testing Library** 
 
-
-
 ### Тестирование
 - Полная настройка Jest для React+TypeScript
 - Интеграция Testing Library
@@ -21,17 +19,20 @@
 
 ## Установка и запуск
 
+### Установка зависимостей
 ```bash
-# Установка зависимостей
 npm install
-
-# Запуск dev-сервера
+```
+### Запуск dev-сервера
+```bash
 npm start
-
-# Production сборка
+```
+### Production сборка
+```bash
 npm run build
-
-# Запуск тестов
+```
+### Запуск тестов
+```bash
 npm test
 ```
 

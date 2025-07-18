@@ -1,39 +1,44 @@
-import '@testing-library/jest-dom';
-import { toBeShorterThan } from './spec/utils/custom-matchers/toBeShorterThan';
-import { toHaveDoneItem } from './spec/utils/custom-matchers/toHaveDoneItem';
+import "@testing-library/jest-dom";
+import { toBeShorterThan } from "./spec/utils/custom-matchers/toBeShorterThan";
+import { toHaveDoneItem } from "./spec/utils/custom-matchers/toHaveDoneItem";
 
-import { toMatchDiffSnapshot } from 'snapshot-diff';
+import { toMatchDiffSnapshot } from "snapshot-diff";
 
 expect.extend({
-    toBeShorterThan,
-    toHaveDoneItem,
-    toMatchDiffSnapshot
+  toBeShorterThan,
+  toHaveDoneItem,
+  toMatchDiffSnapshot,
 });
 
-jest.mock('src/utils/helpers', () => ({
-    ...jest.requireActual('src/utils/helpers'),
-    sayHi: jest.fn(() => 'Привет!'),
+jest.mock("src/utils/helpers", () => ({
+  ...jest.requireActual("src/utils/helpers"),
+  sayHi: jest.fn(() => "Привет!"),
 }));
 
 jest.useFakeTimers();
 
 const cryptoMock = {
-    randomUUID: jest.fn(() => Math.random().toString()),
-}
+  randomUUID: jest.fn(() => Math.random().toString()),
+};
 
-Object.defineProperty(window, 'crypto', {
-    value: cryptoMock,
-    writable: true,
-})
+Object.defineProperty(window, "crypto", {
+  value: cryptoMock,
+  writable: true,
+});
 
 const storage = {};
 
 const lSMock = {
-    getItem: jest.fn((key) => storage[key] || null),
-    setItem: jest.fn((key, val) => { storage[key] = val; }),
-}
+  getItem: jest.fn((key) => storage[key] || null),
+  setItem: jest.fn((key, val) => {
+    storage[key] = val;
+  }),
+  clear: jest.fn(() => {
+    Object.keys(storage).forEach((key) => delete storage[key]);
+  }),
+};
 
-Object.defineProperty(window, 'localStorage', {
-    value: lSMock,
-    writable: true,
-})
+Object.defineProperty(window, "localStorage", {
+  value: lSMock,
+  writable: true,
+});
